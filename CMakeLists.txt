@@ -161,7 +161,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
   endif()
 
   if(DA_PET_MOTORS_AVAILABLE)
-    target_link_libraries(device PRIVATE motor)
+    # Force the entire motor archive in so the drivers' self-registration
+    # (REGISTER_MOTOR_DRIVER -> __attribute__((constructor))) is retained.
+    # Without --whole-archive the linker drops the unreferenced driver objects
+    # and motor_alloc_pwm() reports "Driver 'pwm_RoHS' not found". Mirrors the
+    # link flags used by motor_pwm's own test target (GNU ld / Linux only,
+    # which is the only platform where libgpiod is available).
+    target_link_libraries(device PRIVATE
+      -Wl,--whole-archive motor -Wl,--no-whole-archive)
     target_compile_definitions(device PRIVATE PET_HAVE_MOTORS=1)
   endif()
 endif()
