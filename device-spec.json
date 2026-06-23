@@ -1,0 +1,402 @@
+{
+  "name": "电子宠物",
+  "description": "一个电子宠物，包含头部、身体、尾巴三个可动部位，以及一个小风扇。",
+  "properties": {
+    "head_tilting": {
+      "type": "bool",
+      "description": "头部是否正在歪头",
+      "defaultValue": false
+    },
+    "head_tilt_direction": {
+      "type": "enum",
+      "description": "头部歪头方向",
+      "defaultValue": "left",
+      "enum": [
+        "left",
+        "right"
+      ]
+    },
+    "head_tilt_amplitude": {
+      "type": "enum",
+      "description": "头部歪头幅度",
+      "defaultValue": "medium",
+      "enum": [
+        "large",
+        "medium",
+        "small"
+      ]
+    },
+    "body_turning": {
+      "type": "bool",
+      "description": "身体是否正在旋转",
+      "defaultValue": false
+    },
+    "body_turn_direction": {
+      "type": "enum",
+      "description": "身体转动方向",
+      "defaultValue": "left",
+      "enum": [
+        "left",
+        "right"
+      ]
+    },
+    "body_turn_amplitude": {
+      "type": "enum",
+      "description": "身体转向幅度",
+      "defaultValue": "medium",
+      "enum": [
+        "large",
+        "medium",
+        "small"
+      ]
+    },
+    "tail_swinging": {
+      "type": "bool",
+      "description": "尾巴是否正在摆动",
+      "defaultValue": false
+    },
+    "tail_swing_direction": {
+      "type": "enum",
+      "description": "尾巴摆动方向",
+      "defaultValue": "left",
+      "enum": [
+        "left",
+        "right"
+      ]
+    },
+    "tail_swing_amplitude": {
+      "type": "enum",
+      "description": "尾巴摆动幅度",
+      "defaultValue": "medium",
+      "enum": [
+        "large",
+        "medium",
+        "small"
+      ]
+    },
+    "fan_speed": {
+      "type": "enum",
+      "description": "风扇当前速度档位",
+      "defaultValue": "off",
+      "enum": [
+        "fast",
+        "medium",
+        "slow",
+        "off"
+      ]
+    }
+  },
+  "commands": {
+    "head_tilt": {
+      "description": "控制头部歪头",
+      "parameters": {
+        "direction": {
+          "type": "enum",
+          "description": "歪头方向",
+          "required": true,
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "amplitude": {
+          "type": "enum",
+          "description": "歪头幅度",
+          "required": true,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        "speed": {
+          "type": "enum",
+          "description": "歪头速度",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow"
+          ]
+        }
+      }
+    },
+    "head_shake": {
+      "description": "控制头部摇头",
+      "parameters": {
+        "amplitude": {
+          "type": "enum",
+          "description": "摇头幅度",
+          "required": true,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        "speed": {
+          "type": "enum",
+          "description": "摇头速度",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "description": "摇动次数（0～3）",
+          "required": true,
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    },
+    "head_reset": {
+      "description": "头部回正，停止歪头或摇头并恢复到正中位置",
+      "parameters": {}
+    },
+    "body_turn": {
+      "description": "控制身体转向",
+      "parameters": {
+        "direction": {
+          "type": "enum",
+          "description": "转动方向",
+          "required": true,
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "amplitude": {
+          "type": "enum",
+          "description": "转向幅度",
+          "required": true,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        "speed": {
+          "type": "enum",
+          "description": "转向速度",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow"
+          ]
+        }
+      }
+    },
+    "body_reset": {
+      "description": "身体回正，停止转向并恢复到正中位置",
+      "parameters": {}
+    },
+    "tail_swing": {
+      "description": "控制尾巴摆动",
+      "parameters": {
+        "direction": {
+          "type": "enum",
+          "description": "摆动方向",
+          "required": true,
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "amplitude": {
+          "type": "enum",
+          "description": "摆动幅度",
+          "required": true,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        "speed": {
+          "type": "enum",
+          "description": "摆动速度",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow"
+          ]
+        }
+      }
+    },
+    "tail_wag": {
+      "description": "控制尾巴摇动",
+      "parameters": {
+        "amplitude": {
+          "type": "enum",
+          "description": "摇动幅度",
+          "required": true,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        "speed": {
+          "type": "enum",
+          "description": "摇动速度",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "description": "摇动次数（0～3）",
+          "required": true,
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    },
+    "tail_reset": {
+      "description": "尾巴回正，停止摆动或摇动并恢复到正中位置",
+      "parameters": {}
+    },
+    "set_fan_speed": {
+      "description": "设置风扇速度，设置速度即开启；选择 off 则关闭风扇",
+      "parameters": {
+        "speed": {
+          "type": "enum",
+          "description": "风扇速度档位，off 为关闭",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow",
+            "off"
+          ]
+        }
+      }
+    }
+  },
+  "events": {
+    "head_state_changed": {
+      "description": "头部状态发生变化",
+      "eventType": "info",
+      "outputData": {
+        "tilting": {
+          "type": "bool",
+          "description": "是否正在歪头",
+          "required": true
+        },
+        "tilt_direction": {
+          "type": "enum",
+          "description": "歪头方向",
+          "required": false,
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "tilt_amplitude": {
+          "type": "enum",
+          "description": "歪头幅度",
+          "required": false,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      }
+    },
+    "body_state_changed": {
+      "description": "身体状态发生变化",
+      "eventType": "info",
+      "outputData": {
+        "turning": {
+          "type": "bool",
+          "description": "是否正在旋转",
+          "required": true
+        },
+        "turn_direction": {
+          "type": "enum",
+          "description": "转动方向",
+          "required": false,
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "turn_amplitude": {
+          "type": "enum",
+          "description": "转向幅度",
+          "required": false,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      }
+    },
+    "tail_state_changed": {
+      "description": "尾巴状态发生变化",
+      "eventType": "info",
+      "outputData": {
+        "swinging": {
+          "type": "bool",
+          "description": "是否正在摆动",
+          "required": true
+        },
+        "swing_direction": {
+          "type": "enum",
+          "description": "摆动方向",
+          "required": false,
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "swing_amplitude": {
+          "type": "enum",
+          "description": "摆动幅度",
+          "required": false,
+          "enum": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      }
+    },
+    "fan_state_changed": {
+      "description": "风扇状态发生变化",
+      "eventType": "info",
+      "outputData": {
+        "speed": {
+          "type": "enum",
+          "description": "变化后的风扇速度档位",
+          "required": true,
+          "enum": [
+            "fast",
+            "medium",
+            "slow",
+            "off"
+          ]
+        }
+      }
+    }
+  }
+}
