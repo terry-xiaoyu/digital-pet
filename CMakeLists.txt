@@ -183,6 +183,20 @@ if(DA_BUILD_VOICE_CHAT_AUDIO)
   set(AUDIO_BUILD_PYTHON  OFF CACHE BOOL "" FORCE)
   set(AUDIO_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
   add_subdirectory(audio)
+
+  # PortAudio's ALSA backend (pa_linux_alsa.c) needs GNU C extensions: it uses
+  # the `typeof` keyword and includes <alsa/global.h>, which redefines
+  # `struct timespec` unless a POSIX/default feature macro is set. Our top-level
+  # CMAKE_C_EXTENSIONS=OFF forces strict -std=c11, which propagates to the
+  # fetched portaudio targets and breaks both. Re-enable GNU mode (-std=gnu11)
+  # for just those targets; _GNU_SOURCE additionally guarantees the POSIX
+  # declarations PortAudio relies on.
+  foreach(_pa_tgt portaudio_static portaudio)
+    if(TARGET ${_pa_tgt})
+      set_target_properties(${_pa_tgt} PROPERTIES C_EXTENSIONS ON)
+      target_compile_definitions(${_pa_tgt} PRIVATE _GNU_SOURCE)
+    endif()
+  endforeach()
 endif()
 
 # --- Examples ---------------------------------------------------------------
