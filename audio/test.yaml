@@ -1,0 +1,35 @@
+module: components/multimedia/audio
+
+tests:
+  - name: audio-resampler-contract
+    description: Verifies audio resampler rate conversion, same-rate copy, output sizing, and C API behavior without audio hardware.
+    category: functional
+    scopes: [pr]
+    timeout_s: 120
+    workdir: sdk
+    command: |
+      bash components/multimedia/audio/tests/test_resampler_contract.sh
+
+  - name: audio-invalid-input-error-path
+    description: Verifies invalid resampler sample rates, channel counts, null handles, and undersized output buffers fail explicitly.
+    category: functional
+    scopes: [pr]
+    timeout_s: 120
+    workdir: sdk
+    command: |
+      bash components/multimedia/audio/tests/test_invalid_input_error_path.sh
+
+  - name: audio-manual-device-smoke
+    description: Manually verifies ALSA capture/playback only when AUDIO_MANUAL_RUN=1 and real audio hardware is attached.
+    category: functional
+    scopes: [manual]
+    timeout_s: 120
+    workdir: sdk
+    requires:
+      hardware: ["alsa-capture", "alsa-playback"]
+      env: ["AUDIO_MANUAL_RUN"]
+      human_watch: true
+    artifacts:
+      - capture.wav
+    command: |
+      bash components/multimedia/audio/tests/test_manual_device_smoke.sh

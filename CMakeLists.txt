@@ -12,6 +12,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 # --- Options ---------------------------------------------------------------
 option(DA_BUILD_VOICE    "Build WebSocket voice client (requires libwebsockets)" ON)
+option(DA_BUILD_VOICE_CHAT_AUDIO "Build voice_chat against on-board SpacemitAudio driver (requires PortAudio/ALSA)" OFF)
 option(DA_BUILD_EXAMPLES "Build example programs"                                ON)
 option(DA_BUILD_VISION   "Build vision upload/chat client (requires libcurl)"    ON)
 option(DA_PET_MOTORS     "Build digital-pet motor control (requires libgpiod)"   ON)
@@ -171,6 +172,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
       -Wl,--whole-archive motor -Wl,--no-whole-archive)
     target_compile_definitions(device PRIVATE PET_HAVE_MOTORS=1)
   endif()
+endif()
+
+# --- On-board audio driver (for voice_chat) ---------------------------------
+# Pulls in the audio/ SpacemitAudio library (PortAudio-based). Only enable on
+# the target board where ALSA is available; the portaudio FetchContent build
+# forces PA_USE_ALSA and will not succeed on hosts without ALSA.
+if(DA_BUILD_VOICE_CHAT_AUDIO)
+  enable_language(CXX)
+  set(AUDIO_BUILD_PYTHON  OFF CACHE BOOL "" FORCE)
+  set(AUDIO_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+  add_subdirectory(audio)
 endif()
 
 # --- Examples ---------------------------------------------------------------
